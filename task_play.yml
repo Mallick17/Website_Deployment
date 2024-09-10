@@ -1,0 +1,13 @@
+---
+- name: webapp playbook
+  hosts: demo
+  user: ansible
+  become: yes
+  connection: ssh
+  tasks:
+    - name: remove image
+      command: docker rmi -f mallick17/autodeploy
+    - name: remove container
+      command: docker rm -f gyan
+    - name: run a container
+      command: docker run -it -d --name gyan -p 8090:8080 mallick17/autodeploy
