@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: automation
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    name: deployment
+  type: LoadBalancer
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: webapp
+spec:
+   replicas: 1
+   selector:
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: gyan
+       labels:
+         name: deployment
+     spec:
+      containers:
+        - name: home
+          image: mallick17/autodeploy:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8090
